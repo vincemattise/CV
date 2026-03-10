@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CV — Vince Kramers</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --left-bg: #2E2B38;
+      --left-text: #E4EEF0;
+      --left-text-mid: #a8bfc3;
+      --left-text-muted: #7e9499;
+      --right-bg: #E4EEF0;
+      --right-text: #2E2B38;
+      --right-text-mid: #4a4555;
+      --right-text-muted: #6b6578;
+      --bar-bg: #b0c4c8;
+      --bar-fill: #2E2B38;
+      --white: #ffffff;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #ffffff;
+      display: flex;
+      justify-content: center;
+      padding: 40px 20px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .cv {
+      width: 794px;
+      min-height: auto;
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      box-shadow: none;
+      border: 0.5px solid rgba(0,0,0,0.15);
+      border-radius: 8px;
+    }
+
+    /* ═══ LEFT COLUMN ═══ */
+    .left {
+      background: var(--left-bg);
+      padding: 44px 32px 40px;
+      position: relative;
+      z-index: 2;
+      border-radius: 8px 0 0 0;
+    }
+
+    /* Header / Photo + Name */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 32px;
+    }
+
+    .photo {
+      width: 100px;
+      height: 120px;
+      border-radius: 12px;
+      flex-shrink: 0;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+    }
+
+    .photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .name h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--left-text);
+      line-height: 1.1;
+    }
+
+    .cv-label {
+      font-size: 0.6rem;
+      font-weight: 400;
+      color: var(--right-text-muted);
+      letter-spacing: 2px;
+      text-transform: lowercase;
+      position: absolute;
+      top: 14px;
+      left: 0;
+      width: 794px;
+      text-align: center;
+      z-index: 10;
+    }
+
+    /* Contact */
+    .contact-list {
+      list-style: none;
+      margin-bottom: 32px;
+    }
+
+    .contact-list li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 4px 0;
+      font-size: 0.78rem;
+      color: var(--left-text-mid);
+    }
+
+    .contact-list li a {
+      color: var(--left-text-mid);
+      text-decoration: none;
+    }
+
+    .c-icon {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .c-icon svg { width: 15px; height: 15px; fill: var(--left-text-mid); }
+
+    /* Section titles left */
+    .left-title {
+      font-size: 0.85rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--left-text);
+      margin-bottom: 14px;
+    }
+
+    /* Hobbies */
+    .hobbies {
+      margin-bottom: 32px;
+    }
+
+    .hobby-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .hobby-list li {
+      font-size: 0.8rem;
+      color: var(--left-text-mid);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hobby-list li span { font-size: 0.9rem; }
+
+    /* Profile */
+    .profiel { margin-bottom: 0; }
+
+    .profiel p {
+      font-size: 0.75rem;
+      line-height: 1.75;
+      color: var(--left-text-mid);
+      margin-bottom: 10px;
+    }
+
+    .profiel p:last-child { margin-bottom: 0; }
+
+    /* ═══ RIGHT COLUMN ═══ */
+    .right {
+      background: var(--right-bg);
+      padding: 44px 28px 20px 28px;
+      position: relative;
+      z-index: 1;
+      border-radius: 0 8px 0 0;
+    }
+
+    /* ── TIJDLIJN ── */
+    .tijdlijn-section {
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .tijdlijn-label {
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--right-text);
+      transform: rotate(-90deg);
+      transform-origin: left top;
+      position: absolute;
+      left: -19px;
+      top: 120px;
+      white-space: nowrap;
+    }
+
+    .timeline-wrap {
+      position: relative;
+      padding-left: 20px;
+    }
+
+    /* SVG curved path */
+    .curve-svg {
+      position: absolute;
+      top: -44px;
+      left: 0;
+      width: 100%;
+      height: calc(100% + 44px);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .curve-svg path {
+      fill: none;
+      stroke: var(--right-text);
+      stroke-width: 2.5;
+      stroke-linecap: round;
+    }
+
+    /* Timeline items positioned along the curve */
+    .tl-item {
+      position: relative;
+      z-index: 1;
+      margin-bottom: 4px;
+    }
+
+    .tl-card {
+      background: var(--white);
+      border-radius: 8px;
+      padding: 8px 12px 6px;
+      box-shadow: none; /* 0 2px 12px rgba(0,0,0,0.08) */
+      position: relative;
+      display: inline-block;
+    }
+
+    .tl-item.offset-right { text-align: right; }
+    .tl-item.offset-right .tl-card { text-align: left; }
+    .tl-item.offset-left { text-align: left; }
+
+    /* Arrow marker on SVG path */
+    .curve-svg marker path {
+      fill: var(--right-text);
+    }
+
+    .tl-type {
+      font-size: 0.5rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--right-text-muted);
+      margin-bottom: 2px;
+    }
+
+    .tl-years {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--right-text);
+      margin-bottom: 1px;
+    }
+
+    .tl-years span { margin: 0 4px; }
+
+    .tl-role {
+      font-size: 0.68rem;
+      font-weight: 500;
+      color: var(--right-text-mid);
+      line-height: 1.3;
+    }
+
+    .tl-place {
+      font-size: 0.62rem;
+      color: var(--right-text-muted);
+    }
+
+    /* ── VAARDIGHEDEN ── */
+    .vaard-section { position: relative; }
+
+    .vaard-label {
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--right-text);
+      transform: rotate(-90deg);
+      transform-origin: left top;
+      position: absolute;
+      left: -19px;
+      top: 140px;
+      white-space: nowrap;
+    }
+
+    .vaard-content { padding-left: 20px; }
+
+    .skill-type-label {
+      font-size: 0.6rem;
+      font-weight: 600;
+      color: var(--right-text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+      padding-top: 8px;
+    }
+
+    .skill-type-label.hard {
+      border-top: 1px dashed var(--right-text-muted);
+      margin-top: 4px;
+    }
+
+    /* Skill row */
+    .skill-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 7px;
+    }
+
+    .skill-name {
+      font-size: 0.72rem;
+      color: var(--right-text-mid);
+      min-width: 210px;
+      flex-shrink: 0;
+    }
+
+    .skill-bar {
+      flex: 1;
+      height: 10px;
+      background: var(--bar-bg);
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .skill-bar-fill {
+      height: 100%;
+      background: var(--bar-fill);
+      border-radius: 5px;
+    }
+
+    /* Special items (no bar) */
+    .skill-row.special {
+      gap: 12px;
+    }
+
+    .skill-row.special .skill-val {
+      font-size: 0.72rem;
+      color: var(--right-text-mid);
+      font-weight: 600;
+    }
+
+    .skill-row.special .flag { font-size: 1rem; }
+
+    .checkmark {
+      color: var(--right-text);
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .prog-langs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      flex: 1;
+    }
+
+    .prog-lang {
+      font-size: 0.62rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      background: var(--bar-bg);
+      border-radius: 4px;
+      color: var(--right-text);
+      letter-spacing: 0.3px;
+    }
+
+    /* ═══ CTA in left column ═══ */
+    .left-cta {
+      margin-top: 28px;
+      display: none; /* tijdelijk verborgen */
+      /* display: flex; */
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .left-cta a {
+      color: var(--left-bg);
+      background: var(--right-bg);
+      text-decoration: none;
+      font-size: 0.7rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 6px;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .left-cta a:hover { background: var(--white); transform: translateY(-1px); }
+    .left-cta svg { width: 13px; height: 13px; fill: var(--left-bg); flex-shrink: 0; }
+
+    @media print {
+      .left-cta { display: none; }
+    }
+
+    /* ═══ Print ═══ */
+    @media print {
+      body { background: white; padding: 0; }
+      .cv { box-shadow: none; border-radius: 0; }
+      .left { border-radius: 0; }
+      .right { border-radius: 0; }
+    }
+
+    /* ═══ Mobile ═══ */
+    @media (max-width: 820px) {
+      body { padding: 20px 10px; }
+      .cv {
+        width: 100%;
+        grid-template-columns: 1fr;
+        min-height: auto;
+        border-radius: 8px;
+      }
+      .left { border-radius: 8px 8px 0 0; }
+      .right { border-radius: 0 0 8px 8px; }
+      .left, .right { padding: 32px 24px; }
+      .cv-label { width: 100%; }
+      .name h1 { font-size: 1.6rem; }
+
+      /* Timeline mobile */
+      .tijdlijn-label, .vaard-label { display: none; }
+      .timeline-wrap { padding-left: 0; }
+      .curve-svg { display: none; }
+      .tl-item { margin-bottom: 8px; }
+      .tl-item.offset-right,
+      .tl-item.offset-left { text-align: left; padding: 0 !important; }
+      .tl-card { display: block; }
+
+      /* Vaardigheden mobile */
+      .vaard-content { padding-left: 0; }
+      .skill-name { min-width: 200px; }
+      .skill-row { gap: 8px; }
+    }
+
+    @media (max-width: 480px) {
+      .left, .right { padding: 24px 18px; }
+      .name h1 { font-size: 1.4rem; }
+      .skill-name { min-width: 170px; font-size: 0.65rem; }
+      .skill-row { flex-wrap: wrap; }
+      .skill-bar { min-width: 80px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="cv">
+
+  <!-- ═══ LEFT COLUMN ═══ -->
+  <div class="left">
+
+    <div class="header">
+      <div class="photo">
+        <img src="Media/Profielfoto's/Profiefoto CV.jpg" alt="Vince Kramers">
+      </div>
+      <div class="name">
+        <h1>Vince<br>Kramers</h1>
+      </div>
+    </div>
+    <div class="cv-label">curriculum vitae</div>
+
+    <!-- Contact -->
+    <ul class="contact-list">
+      <li>
+        <span class="c-icon"><svg viewBox="0 0 24 24"><path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.57.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.57a1 1 0 01-.24 1.02l-2.2 2.2z"/></svg></span>
+        <a href="tel:+31618134141">0618134141</a>
+      </li>
+      <li>
+        <span class="c-icon"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></span>
+        <a href="mailto:vincekramers@icloud.com">vincekramers@icloud.com</a>
+      </li>
+      <li>
+        <span class="c-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/></svg></span>
+        Haarlem, NL
+      </li>
+      <li>
+        <span class="c-icon"><svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/></svg></span>
+        09/03/1996
+      </li>
+      <li>
+        <span class="c-icon"><svg viewBox="0 0 24 24"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 01-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 017.8 2zm-.2 2A3.6 3.6 0 004 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 003.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6zm9.65 1.5a1.25 1.25 0 110 2.5 1.25 1.25 0 010-2.5zM12 7a5 5 0 110 10 5 5 0 010-10zm0 2a3 3 0 100 6 3 3 0 000-6z"/></svg></span>
+        <a href="https://instagram.com/vincekramers" target="_blank">vincekramers</a>
+      </li>
+    </ul>
+
+    <!-- Hobbies -->
+    <div class="hobbies">
+      <div class="left-title">Hobby's</div>
+      <ul class="hobby-list">
+        <li><span>&#9835;</span> Festivals</li>
+        <li><img src="Media/3d printing icon.png" alt="3D" style="width:16px;height:16px;object-fit:contain;opacity:1;filter:invert(1)sepia(1)saturate(0.3)hue-rotate(145deg)brightness(0.75)"> 3D Printen</li>
+      </ul>
+    </div>
+
+    <!-- Profiel -->
+    <div class="profiel">
+      <div class="left-title">Profiel</div>
+      <p>Na de HAVO startte ik met Informatica, maar merkte al snel dat mijn passie lag bij e-commerce, branding en productpresentatie. Na mijn propedeuse werkte ik zes jaar bij Apple, waar ik mijn soft skills verder ontwikkelde en ervaring opdeed met customer journeys en branding.</p>
+      <p>Tegelijkertijd ontwikkelde ik mijn eigen merk, waarbij ik mijn ondernemerschap en hard skills aanscherpte: van productontwikkeling, marketing, logistiek en administratie tot grafische vormgeving, eventorganisatie en het opzetten van websites.</p>
+      <p>Deze combinatie maakt mij veelzijdig: ik weet hoe ik een onderscheidende customer journey creëer en conversie optimaliseer. Na vijf jaar als fulltime ondernemer mis ik echter de samenwerking en gedeelde doelen binnen een team, en ben ik klaar voor een nieuwe uitdaging.</p>
+    </div>
+
+    <!-- CTA -->
+    <div class="left-cta">
+      <a href="tel:+31618134141">
+        <svg viewBox="0 0 24 24"><path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.57.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.57a1 1 0 01-.24 1.02l-2.2 2.2z"/></svg>
+        06 18134141
+      </a>
+      <a href="mailto:vincekramers@icloud.com">
+        <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        vincekramers@icloud.com
+      </a>
+      <a href="#" onclick="window.print();return false;">
+        <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+        Download CV
+      </a>
+    </div>
+
+  </div>
+
+  <!-- ═══ RIGHT COLUMN ═══ -->
+  <div class="right">
+
+    <!-- TIJDLIJN -->
+    <div class="tijdlijn-section">
+      <div class="tijdlijn-label">Tijdlijn</div>
+
+      <div class="timeline-wrap">
+
+        <svg class="curve-svg" viewBox="0 0 420 400" preserveAspectRatio="none">
+          <defs>
+            <marker id="arrowhead" markerWidth="6" markerHeight="5" refX="3" refY="2.5" orient="auto">
+              <polygon points="0 0.5, 5 2.5, 0 4.5" fill="var(--right-text)" />
+            </marker>
+          </defs>
+          <path d="M 210 0
+                   C 210 22, 340 44, 340 66
+                   S 80 88, 80 132
+                   S 340 154, 340 198
+                   S 80 220, 80 264
+                   S 340 286, 340 330
+                   S 280 370, 234 390" marker-end="url(#arrowhead)" />
+        </svg>
+
+        <!-- HAVO -->
+        <div class="tl-item offset-right" style="padding-left:40%;">
+          <div class="tl-card">
+            <div class="tl-type">diploma</div>
+            <div class="tl-years">2008 <span>&#10141;</span> 2014</div>
+            <div class="tl-role">HAVO</div>
+            <div class="tl-place">Coornhert Lyceum, Haarlem</div>
+          </div>
+        </div>
+
+        <!-- HBO Informatica -->
+        <div class="tl-item offset-left" style="padding-right:40%;">
+          <div class="tl-card">
+            <div class="tl-type">propedeuse</div>
+            <div class="tl-years">2014 <span>&#10141;</span> 2015</div>
+            <div class="tl-role">HBO Informatica</div>
+            <div class="tl-place">Hogeschool Leiden</div>
+          </div>
+        </div>
+
+        <!-- Apple -->
+        <div class="tl-item offset-right" style="padding-left:35%;">
+          <div class="tl-card">
+            <div class="tl-type">werk</div>
+            <div class="tl-years">2015 <span>&#10141;</span> 2021</div>
+            <div class="tl-role">Product, Operations</div>
+            <div class="tl-place">Apple Inc., Haarlem</div>
+          </div>
+        </div>
+
+        <!-- MATTISE -->
+        <div class="tl-item offset-left" style="padding-right:35%;">
+          <div class="tl-card">
+            <div class="tl-type">werk</div>
+            <div class="tl-years">2017 <span>&#10141;</span> 2025</div>
+            <div class="tl-role">Eigenaar accessoiremerk</div>
+            <div class="tl-place"><a href="https://mattise.nl" target="_blank" style="color:inherit;text-decoration:none;border-bottom:1px solid var(--right-text-muted)">mattise.nl</a>, Haarlem</div>
+          </div>
+        </div>
+
+        <!-- MATTORI -->
+        <div class="tl-item offset-right" style="padding-left:30%;">
+          <div class="tl-card">
+            <div class="tl-type">werk</div>
+            <div class="tl-years">2025 <span>&#10141;</span> nu</div>
+            <div class="tl-role">Eigenaar webshop</div>
+            <div class="tl-place"><a href="https://mattori.nl" target="_blank" style="color:inherit;text-decoration:none;border-bottom:1px solid var(--right-text-muted)">mattori.nl</a>, Haarlem</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- VAARDIGHEDEN -->
+    <div class="vaard-section">
+      <div class="vaard-label">Vaardigheden</div>
+
+      <div class="vaard-content">
+
+        <div class="skill-type-label">soft skills</div>
+
+        <div class="skill-row"><span class="skill-name">zelfstandig &amp; verantwoordelijk</span><div class="skill-bar"><div class="skill-bar-fill" style="width:100%"></div></div></div>
+        <div class="skill-row"><span class="skill-name">georganiseerd &amp; gestructureerd</span><div class="skill-bar"><div class="skill-bar-fill" style="width:100%"></div></div></div>
+        <div class="skill-row"><span class="skill-name">creatief &amp; innovatief</span><div class="skill-bar"><div class="skill-bar-fill" style="width:90%"></div></div></div>
+        <div class="skill-row"><span class="skill-name">communicatief</span><div class="skill-bar"><div class="skill-bar-fill" style="width:85%"></div></div></div>
+        <div class="skill-row"><span class="skill-name">flexibel &amp; aanpassingsvermogen</span><div class="skill-bar"><div class="skill-bar-fill" style="width:85%"></div></div></div>
+        <div class="skill-row"><span class="skill-name">leidinggeven &amp; samenwerken</span><div class="skill-bar"><div class="skill-bar-fill" style="width:80%"></div></div></div>
+
+        <div class="skill-type-label hard">hard skills</div>
+
+        <div class="skill-row"><span class="skill-name">webshop ontwikkeling</span><div class="skill-bar"><div class="skill-bar-fill" style="width:100%"></div></div></div>
+        <div class="skill-row"><span class="skill-name">data gedreven</span><div class="skill-bar"><div class="skill-bar-fill" style="width:95%"></div></div></div>
+        <div class="skill-row"><span class="skill-name">branding</span><div class="skill-bar"><div class="skill-bar-fill" style="width:95%"></div></div></div>
+        <div class="skill-row"><span class="skill-name">AI-toepassingen</span><div class="skill-bar"><div class="skill-bar-fill" style="width:90%"></div></div></div>
+        <div class="skill-row"><span class="skill-name">communicatie <svg style="width:12px;height:12px;vertical-align:-1px;display:inline" viewBox="0 0 24 24"><path fill="var(--right-text-muted)" d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></span><div class="skill-bar"><div class="skill-bar-fill" style="width:90%"></div></div></div>
+        <div class="skill-row"><span class="skill-name">marketing</span><div class="skill-bar"><div class="skill-bar-fill" style="width:85%"></div></div></div>
+        <div class="skill-row"><span class="skill-name">grafisch ontwerpen</span><div class="skill-bar"><div class="skill-bar-fill" style="width:85%"></div></div></div>
+        <div class="skill-row"><span class="skill-name">3D-modelleren &amp; -printen</span><div class="skill-bar"><div class="skill-bar-fill" style="width:85%"></div></div></div>
+        <div class="skill-row"><span class="skill-name">copywriting</span><div class="skill-bar"><div class="skill-bar-fill" style="width:80%"></div></div></div>
+        <div class="skill-row"><span class="skill-name">foto- en videografie</span><div class="skill-bar"><div class="skill-bar-fill" style="width:80%"></div></div></div>
+        <div class="skill-row"><span class="skill-name">sales</span><div class="skill-bar"><div class="skill-bar-fill" style="width:75%"></div></div></div>
+        <div class="skill-row"><span class="skill-name">communicatie &#9742;</span><div class="skill-bar"><div class="skill-bar-fill" style="width:70%"></div></div></div>
+
+        <div class="skill-row special">
+          <span class="skill-name">spreken en schrijven</span>
+          <span class="skill-val"><span class="flag">&#x1F1F3;&#x1F1F1;</span> &nbsp;<span class="flag">&#x1F1EC;&#x1F1E7;</span></span>
+        </div>
+        <div class="skill-row special">
+          <span class="skill-name">programmeertalen</span>
+          <div class="prog-langs">
+            <span class="prog-lang">HTML</span>
+            <span class="prog-lang">CSS</span>
+            <span class="prog-lang">JS</span>
+            <span class="prog-lang">PHP</span>
+            <span style="font-size:0.85rem;color:var(--right-text-muted);font-weight:500;align-self:center">+</span>
+          </div>
+        </div>
+        <div class="skill-row special">
+          <span class="skill-name">rijbewijs en auto</span>
+          <span class="checkmark">&#10003;</span>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+
+</div>
+
+</body>
+</html>
