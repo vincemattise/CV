@@ -709,27 +709,72 @@ function downloadPDF() {
   btn.style.display = 'none';
   const cv = document.querySelector('.cv');
 
-  // Temporarily remove border and fix min-height
+  // Temporarily remove border
   const origBorder = cv.style.border;
   cv.style.border = 'none';
 
-  const scale = 3;
+  // Fix SVG icons: set explicit width/height for html2canvas
+  const svgs = cv.querySelectorAll('svg[viewBox]');
+  const origSvgAttrs = [];
+  svgs.forEach(svg => {
+    origSvgAttrs.push({ w: svg.getAttribute('width'), h: svg.getAttribute('height') });
+    const box = svg.getBoundingClientRect();
+    svg.setAttribute('width', Math.round(box.width));
+    svg.setAttribute('height', Math.round(box.height));
+  });
+
+  // Fix profile photo: replace img with canvas to handle object-fit
+  const img = document.querySelector('.photo img');
+  const photoCanvas = document.createElement('canvas');
+  const pw = img.offsetWidth, ph = img.offsetHeight;
+  photoCanvas.width = pw * 3; photoCanvas.height = ph * 3;
+  const pctx = photoCanvas.getContext('2d');
+  const nw = img.naturalWidth, nh = img.naturalHeight;
+  const ratio = Math.max(pw / nw, ph / nh);
+  const sw = nw * ratio, sh = nh * ratio;
+  pctx.drawImage(img, (pw * 3 - sw * 3) / 2, 0, sw * 3, sh * 3);
+  photoCanvas.style.cssText = 'width:' + pw + 'px;height:' + ph + 'px;border-radius:12px;display:block;';
+  img.style.display = 'none';
+  img.parentElement.appendChild(photoCanvas);
+
+  // Fix 3D print icon: pre-render with CSS filter
+  const printIcon = cv.querySelector('.hobby-list img');
+  let iconCanvas = null;
+  if (printIcon) {
+    iconCanvas = document.createElement('canvas');
+    iconCanvas.width = 48; iconCanvas.height = 48;
+    const ictx = iconCanvas.getContext('2d');
+    ictx.filter = printIcon.style.filter;
+    ictx.drawImage(printIcon, 0, 0, 48, 48);
+    iconCanvas.style.cssText = 'width:16px;height:16px;display:inline-block;vertical-align:middle;';
+    printIcon.style.display = 'none';
+    printIcon.parentElement.insertBefore(iconCanvas, printIcon);
+  }
+
   const cvW = cv.offsetWidth;
   const cvH = cv.offsetHeight;
 
   html2canvas(cv, {
-    scale: scale,
+    scale: 3,
     useCORS: true,
     backgroundColor: null,
     width: cvW,
-    height: cvH,
-    // Let html2canvas handle SVGs natively by converting to foreignObject
-    foreignObjectRendering: true
+    height: cvH
   }).then(canvas => {
+    // Restore everything
     cv.style.border = origBorder;
+    svgs.forEach((svg, i) => {
+      if (origSvgAttrs[i].w) svg.setAttribute('width', origSvgAttrs[i].w);
+      else svg.removeAttribute('width');
+      if (origSvgAttrs[i].h) svg.setAttribute('height', origSvgAttrs[i].h);
+      else svg.removeAttribute('height');
+    });
+    photoCanvas.remove();
+    img.style.display = '';
+    if (iconCanvas) { iconCanvas.remove(); printIcon.style.display = ''; }
 
-    // Create PDF with custom dimensions matching the CV exactly
-    const pxToMm = 25.4 / 96; // 1px = 25.4/96 mm
+    // Create PDF matching exact CV dimensions
+    const pxToMm = 25.4 / 96;
     const pdfW = cvW * pxToMm;
     const pdfH = cvH * pxToMm;
     const { jsPDF } = window.jspdf;
