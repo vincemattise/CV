@@ -572,7 +572,7 @@
 
       <div class="timeline-wrap">
 
-        <svg class="curve-svg" viewBox="0 0 420 500" preserveAspectRatio="none">
+        <svg class="curve-svg" viewBox="0 0 420 470" preserveAspectRatio="none">
           <defs>
             <marker id="arrowhead" markerWidth="6" markerHeight="5" refX="3" refY="2.5" orient="auto">
               <polygon points="0 0.5, 5 2.5, 0 4.5" fill="var(--right-text)" />
@@ -710,9 +710,17 @@ function downloadPDF() {
   btn.style.display = 'none';
   const cv = document.querySelector('.cv');
 
-  // Temporarily remove border
+  // Temporarily remove border and border-radius for PDF
   const origBorder = cv.style.border;
+  const origRadius = cv.style.borderRadius;
   cv.style.border = 'none';
+  cv.style.borderRadius = '0';
+  const left = cv.querySelector('.left');
+  const right = cv.querySelector('.right');
+  const origLeftRadius = left.style.borderRadius;
+  const origRightRadius = right.style.borderRadius;
+  left.style.borderRadius = '0';
+  right.style.borderRadius = '0';
 
   // Fix SVG icons: set explicit width/height for html2canvas
   const svgs = cv.querySelectorAll('svg[viewBox]');
@@ -750,6 +758,9 @@ function downloadPDF() {
   }).then(canvas => {
     // Restore everything
     cv.style.border = origBorder;
+    cv.style.borderRadius = origRadius;
+    left.style.borderRadius = origLeftRadius;
+    right.style.borderRadius = origRightRadius;
     svgs.forEach((svg, i) => {
       if (origSvgAttrs[i].w) svg.setAttribute('width', origSvgAttrs[i].w);
       else svg.removeAttribute('width');
