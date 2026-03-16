@@ -708,7 +708,7 @@
 
 <button class="download-btn" onclick="downloadPDF()">
   <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-  Download PDF <span style="font-size:0.5rem;opacity:0.5;margin-left:4px">v10</span>
+  Download PDF <span style="font-size:0.5rem;opacity:0.5;margin-left:4px">v11</span>
 </button>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -734,7 +734,7 @@ function downloadPDF() {
   // Fix SVG curve: shift down in PDF
   const curveSvg = cv.querySelector('.curve-svg');
   const origSvgTop = curveSvg.style.top;
-  curveSvg.style.top = '-34px';
+  curveSvg.style.top = '-14px';
 
   // Fix "curriculum vitae" text kerning for html2canvas
   const cvLabel = cv.querySelector('.cv-label');
