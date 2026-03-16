@@ -74,6 +74,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      object-position: center top;
       display: block;
     }
 
@@ -706,6 +707,21 @@ function downloadPDF() {
   const btn = document.querySelector('.download-btn');
   btn.style.display = 'none';
   const cv = document.querySelector('.cv');
+  const img = document.querySelector('.photo img');
+
+  // Pre-render the photo onto a canvas to preserve object-fit:cover
+  const canvas = document.createElement('canvas');
+  const w = img.offsetWidth, h = img.offsetHeight;
+  canvas.width = w * 3; canvas.height = h * 3;
+  const ctx = canvas.getContext('2d');
+  const nw = img.naturalWidth, nh = img.naturalHeight;
+  const ratio = Math.max(w / nw, h / nh);
+  const sw = nw * ratio, sh = nh * ratio;
+  ctx.drawImage(img, (w * 3 - sw * 3) / 2, 0, sw * 3, sh * 3);
+  canvas.style.cssText = 'width:' + w + 'px;height:' + h + 'px;border-radius:12px;display:block;';
+  img.style.display = 'none';
+  img.parentElement.appendChild(canvas);
+
   html2pdf().set({
     margin: 0,
     filename: 'CV - Vince Kramers.pdf',
@@ -713,6 +729,8 @@ function downloadPDF() {
     html2canvas: { scale: 3, useCORS: true, backgroundColor: null },
     jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
   }).from(cv).save().then(() => {
+    canvas.remove();
+    img.style.display = '';
     btn.style.display = 'flex';
   });
 }
