@@ -43,6 +43,15 @@
       border: 0.5px solid rgba(0,0,0,0.15);
       border-radius: 8px;
     }
+    .cv.pdf-mode {
+      border: none !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+    }
+    .cv.pdf-mode .left,
+    .cv.pdf-mode .right {
+      border-radius: 0 !important;
+    }
 
     /* ═══ LEFT COLUMN ═══ */
     .left {
@@ -699,7 +708,7 @@
 
 <button class="download-btn" onclick="downloadPDF()">
   <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-  Download PDF <span style="font-size:0.5rem;opacity:0.5;margin-left:4px">v6</span>
+  Download PDF <span style="font-size:0.5rem;opacity:0.5;margin-left:4px">v7</span>
 </button>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -711,16 +720,18 @@ function downloadPDF() {
   const cv = document.querySelector('.cv');
 
   // Temporarily remove border and border-radius for PDF
-  const origBorder = cv.style.border;
-  const origRadius = cv.style.borderRadius;
-  cv.style.border = 'none';
-  cv.style.borderRadius = '0';
-  const left = cv.querySelector('.left');
-  const right = cv.querySelector('.right');
-  const origLeftRadius = left.style.borderRadius;
-  const origRightRadius = right.style.borderRadius;
-  left.style.borderRadius = '0';
-  right.style.borderRadius = '0';
+  cv.classList.add('pdf-mode');
+
+  // Fix timeline cards: shift up to compensate for html2canvas offset
+  const tlWrap = cv.querySelector('.timeline-wrap');
+  const origTlMargin = tlWrap.style.marginTop;
+  tlWrap.style.marginTop = '-40px';
+
+  // Fix "curriculum vitae" text kerning for html2canvas
+  const cvLabel = cv.querySelector('.cv-label');
+  const origLetterSpacing = cvLabel.style.letterSpacing;
+  cvLabel.style.letterSpacing = '2px';
+  cvLabel.style.wordSpacing = '0px';
 
   // Fix SVG icons: set explicit width/height for html2canvas
   const svgs = cv.querySelectorAll('svg[viewBox]');
@@ -757,10 +768,10 @@ function downloadPDF() {
     height: cvH
   }).then(canvas => {
     // Restore everything
-    cv.style.border = origBorder;
-    cv.style.borderRadius = origRadius;
-    left.style.borderRadius = origLeftRadius;
-    right.style.borderRadius = origRightRadius;
+    cv.classList.remove('pdf-mode');
+    tlWrap.style.marginTop = origTlMargin;
+    cvLabel.style.letterSpacing = origLetterSpacing;
+    cvLabel.style.wordSpacing = '';
     svgs.forEach((svg, i) => {
       if (origSvgAttrs[i].w) svg.setAttribute('width', origSvgAttrs[i].w);
       else svg.removeAttribute('width');
