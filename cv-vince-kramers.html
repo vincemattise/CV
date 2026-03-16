@@ -708,7 +708,7 @@
 
 <button class="download-btn" onclick="downloadPDF()">
   <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-  Download PDF <span style="font-size:0.5rem;opacity:0.5;margin-left:4px">v7</span>
+  Download PDF <span style="font-size:0.5rem;opacity:0.5;margin-left:4px">v8</span>
 </button>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -726,6 +726,11 @@ function downloadPDF() {
   const tlWrap = cv.querySelector('.timeline-wrap');
   const origTlMargin = tlWrap.style.marginTop;
   tlWrap.style.marginTop = '-40px';
+
+  // Fix SVG curve: shift down in PDF
+  const curveSvg = cv.querySelector('.curve-svg');
+  const origSvgTop = curveSvg.style.top;
+  curveSvg.style.top = '6px';
 
   // Fix "curriculum vitae" text kerning for html2canvas
   const cvLabel = cv.querySelector('.cv-label');
@@ -770,6 +775,7 @@ function downloadPDF() {
     // Restore everything
     cv.classList.remove('pdf-mode');
     tlWrap.style.marginTop = origTlMargin;
+    curveSvg.style.top = origSvgTop;
     cvLabel.style.letterSpacing = origLetterSpacing;
     cvLabel.style.wordSpacing = '';
     svgs.forEach((svg, i) => {
