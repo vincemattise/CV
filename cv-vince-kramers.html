@@ -532,7 +532,7 @@
       <div class="left-title">Hobby's</div>
       <ul class="hobby-list">
         <li><span>&#9835;</span> Festivals</li>
-        <li><img src="Media/3d printing icon.png" alt="3D" style="width:16px;height:16px;object-fit:contain;opacity:1;filter:invert(1)sepia(1)saturate(0.3)hue-rotate(145deg)brightness(0.75)"> 3D Printen</li>
+        <li><svg style="width:16px;height:16px;vertical-align:middle;fill:var(--left-text-mid)" viewBox="0 0 24 24"><path d="M19 6h-1V1H6v5H5a3 3 0 00-3 3v7h4v4h12v-4h4V9a3 3 0 00-3-3zM8 3h8v3H8V3zm8 18H8v-6h8v6zm4-4h-2v-2H6v2H4V9a1 1 0 011-1h14a1 1 0 011 1v8z"/><circle cx="18" cy="10.5" r="1"/></svg> 3D Printen</li>
       </ul>
     </div>
 
@@ -737,20 +737,6 @@ function downloadPDF() {
   img.style.display = 'none';
   img.parentElement.appendChild(photoCanvas);
 
-  // Fix 3D print icon: pre-render with CSS filter
-  const printIcon = cv.querySelector('.hobby-list img');
-  let iconCanvas = null;
-  if (printIcon) {
-    iconCanvas = document.createElement('canvas');
-    iconCanvas.width = 48; iconCanvas.height = 48;
-    const ictx = iconCanvas.getContext('2d');
-    ictx.filter = printIcon.style.filter;
-    ictx.drawImage(printIcon, 0, 0, 48, 48);
-    iconCanvas.style.cssText = 'width:16px;height:16px;display:inline-block;vertical-align:middle;';
-    printIcon.style.display = 'none';
-    printIcon.parentElement.insertBefore(iconCanvas, printIcon);
-  }
-
   const cvW = cv.offsetWidth;
   const cvH = cv.offsetHeight;
 
@@ -771,8 +757,6 @@ function downloadPDF() {
     });
     photoCanvas.remove();
     img.style.display = '';
-    if (iconCanvas) { iconCanvas.remove(); printIcon.style.display = ''; }
-
     // Create PDF matching exact CV dimensions
     const pxToMm = 25.4 / 96;
     const pdfW = cvW * pxToMm;
