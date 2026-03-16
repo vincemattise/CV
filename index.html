@@ -701,44 +701,42 @@
   Download PDF
 </button>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
 function downloadPDF() {
   const btn = document.querySelector('.download-btn');
   btn.style.display = 'none';
   const cv = document.querySelector('.cv');
-  const img = document.querySelector('.photo img');
 
-  // Pre-render the photo onto a canvas to preserve object-fit:cover
-  const canvas = document.createElement('canvas');
-  const w = img.offsetWidth, h = img.offsetHeight;
-  canvas.width = w * 3; canvas.height = h * 3;
-  const ctx = canvas.getContext('2d');
-  const nw = img.naturalWidth, nh = img.naturalHeight;
-  const ratio = Math.max(w / nw, h / nh);
-  const sw = nw * ratio, sh = nh * ratio;
-  ctx.drawImage(img, (w * 3 - sw * 3) / 2, 0, sw * 3, sh * 3);
-  canvas.style.cssText = 'width:' + w + 'px;height:' + h + 'px;border-radius:12px;display:block;';
-  img.style.display = 'none';
-  img.parentElement.appendChild(canvas);
-
-  // Remove min-height and border to fit exactly on one A4 page
-  const origMinHeight = cv.style.minHeight;
+  // Temporarily remove border and fix min-height
   const origBorder = cv.style.border;
-  cv.style.minHeight = 'auto';
   cv.style.border = 'none';
 
-  html2pdf().set({
-    margin: 0,
-    filename: 'CV - Vince Kramers.pdf',
-    image: { type: 'jpeg', quality: 1 },
-    html2canvas: { scale: 3, useCORS: true, backgroundColor: null },
-    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-  }).from(cv).save().then(() => {
-    cv.style.minHeight = origMinHeight;
+  const scale = 3;
+  const cvW = cv.offsetWidth;
+  const cvH = cv.offsetHeight;
+
+  html2canvas(cv, {
+    scale: scale,
+    useCORS: true,
+    backgroundColor: null,
+    width: cvW,
+    height: cvH,
+    // Let html2canvas handle SVGs natively by converting to foreignObject
+    foreignObjectRendering: true
+  }).then(canvas => {
     cv.style.border = origBorder;
-    canvas.remove();
-    img.style.display = '';
+
+    // Create PDF with custom dimensions matching the CV exactly
+    const pxToMm = 25.4 / 96; // 1px = 25.4/96 mm
+    const pdfW = cvW * pxToMm;
+    const pdfH = cvH * pxToMm;
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({ unit: 'mm', format: [pdfW, pdfH], orientation: 'portrait' });
+    const imgData = canvas.toDataURL('image/jpeg', 1.0);
+    pdf.addImage(imgData, 'JPEG', 0, 0, pdfW, pdfH);
+    pdf.save('CV - Vince Kramers.pdf');
     btn.style.display = 'flex';
   });
 }
