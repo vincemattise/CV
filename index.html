@@ -408,12 +408,42 @@
       .left-cta { display: none; }
     }
 
+    /* ═══ Download button ═══ */
+    .download-btn {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      background: var(--left-bg);
+      color: var(--left-text);
+      border: none;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      transition: transform 0.15s, box-shadow 0.15s;
+      z-index: 100;
+    }
+    .download-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,0,0,0.3); }
+    .download-btn svg { width: 16px; height: 16px; fill: var(--left-text); }
+
     /* ═══ Print ═══ */
     @media print {
-      body { background: white; padding: 0; }
-      .cv { box-shadow: none; border-radius: 0; }
+      body { background: white; padding: 0; margin: 0; }
+      .cv { box-shadow: none; border: none; border-radius: 0; width: 100%; min-height: 100vh; }
       .left { border-radius: 0; }
       .right { border-radius: 0; }
+      .download-btn { display: none; }
+
+      @page {
+        size: A4;
+        margin: 0;
+      }
     }
 
     /* ═══ Mobile ═══ */
@@ -664,6 +694,11 @@
 
 
 </div>
+
+<button class="download-btn" onclick="window.print()">
+  <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+  Download PDF
+</button>
 
 </body>
 </html>
